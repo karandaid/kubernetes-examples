@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx
+  name: nginx-pod-001
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 80
