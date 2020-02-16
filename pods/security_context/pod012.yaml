@@ -1,0 +1,19 @@
+# Security Context - Container Level
+# capabilities are only supported at container level
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod-12
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+      securityContext:
+        runAsUser: 1000
+        capabilities:
+          add: ["MAC_ADMIN"]
+
+    

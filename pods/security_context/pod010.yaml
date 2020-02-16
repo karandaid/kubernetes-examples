@@ -1,0 +1,16 @@
+# Security Context - Pod Level
+# run As User in
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod-10
+  labels:
+    app: myapp
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+    - name: nginx-container
+      image: nginx
+    

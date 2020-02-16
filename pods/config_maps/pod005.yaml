@@ -1,0 +1,26 @@
+# With ConfigMap
+# envFrom
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config-2
+data:
+  APP_COLOR: blue
+  APP_MODE: prod
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: default
+  name: myapp-pod-5
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+      envFrom:
+        - configMapRef:
+            name: app-config-2
+    

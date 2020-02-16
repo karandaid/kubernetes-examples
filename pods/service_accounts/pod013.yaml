@@ -1,0 +1,29 @@
+# Short Command:
+#   kubectl create serviceaccount kayd
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kayd-secret-1
+data:
+  token: bXlzcWwK
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kayd
+  namespace: default
+secrets:
+- name: kayd-secret-1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod-13
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+    
