@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity-with-pod-002
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+          - key: name
+            operator: In
+            values:
+            - anything
+  containers:
+  - name: node-affinity-with-pod-002
+    image: nginx

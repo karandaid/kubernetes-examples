@@ -1,0 +1,9 @@
+# kubectl label nodes node01 key=value
+---
+apiVersion: v1
+kind: Node
+metadata:
+  labels:
+    name: anything
+  name: node01
+

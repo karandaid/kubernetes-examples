@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity-with-deploy-003
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      run: node-affinity-with-deploy-003
+  template:
+    metadata:
+      labels:
+        run: node-affinity-with-deploy-003
+    spec:
+      containers:
+      - image: nginx
+        imagePullPolicy: Always
+        name: node-affinity-with-deploy-003
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: color
+                operator: In
+                values:
+                - blue

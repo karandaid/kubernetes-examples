@@ -1,0 +1,17 @@
+# kubectl taint nodes node1 key1=value1:NoSchedule
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toleration-001
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+  tolerations:
+  - key: "key1"
+    operator: "Equal"
+    value: "value1"
+    effect: "NoSchedule"
