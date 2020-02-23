@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    MyApp: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd
+  labels:
+    MyApp: httpd
+spec:
+  containers:
+  - image: httpd
+    name: httpd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx
+spec:
+  type: NodePort
+  selector:
+    MyApp: nginx
+  ports:
+    - port: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-httpd
+spec:
+  type: NodePort
+  selector:
+    MyApp: httpd
+  ports:
+    - port: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: svc-nginx
+          servicePort: 80
+      - path: /nginx
+        backend:
+          serviceName: svc-nginx
+          servicePort: 80
+      - path: /apache
+        backend:
+          serviceName: svc-httpd
+          servicePort: 80

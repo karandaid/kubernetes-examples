@@ -1,0 +1,29 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: basic-cluster
+  region: us-east-1
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t3.small
+    desiredCapacity: 2
+    maxSize: 5
+    minSize: 0
+    ssh:
+      allow: true # will use ~/.ssh/id_rsa.pub as the default ssh key
+      publicKeyName: 'kubernetes'
+    tags:
+      'env': 'dev'
+
+  - name: ng-2
+    instanceType: t3.small
+    desiredCapacity: 2
+    maxSize: 5
+    minSize: 1
+    ssh:
+      allow: true
+      publicKeyName: 'kubernetes'
+    tags:
+      'env': 'dev'

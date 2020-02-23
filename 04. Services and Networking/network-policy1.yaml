@@ -1,0 +1,81 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    MyApp: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tomcat
+  labels:
+    MyApp: tomcat
+spec:
+  containers:
+  - image: tomcat
+    name: tomcat
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx
+  labels:
+    app: nginx
+spec:
+  selector:
+    MyApp: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-tomcat
+  labels:
+    app: tomcat
+spec:
+  selector:
+    MyApp: tomcat
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy-2
+spec:
+  podSelector: {}
+  ingress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+spec:
+  podSelector:
+    matchLabels:
+      MyApp: nginx
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          MyApp: tomcat
